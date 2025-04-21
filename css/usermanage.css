@@ -1,0 +1,184 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #081832;
+}
+
+header {
+    background-color: #030829;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px 0;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 40px;
+    margin-right: 10px;
+    color: #e8f7fe;
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+    color: #e8f7fe;
+}
+
+.main-menu {
+    display: flex;
+    list-style: none;
+}
+
+.main-menu li {
+    margin: 0 15px;
+}
+
+.main-menu a {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.main-menu a:hover, .main-menu a.active {
+    color: #4b8df8;
+}
+
+main {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.用户信息显示 {
+    width: 100%;
+    height: 20px;
+    background-color: #081832;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0;
+    border-radius: 5px;
+    color: #ffffff;
+    padding: 0 20px;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.菜单栏 {
+    width: 20%;
+    background-color: #072951;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.菜单列表 {
+    list-style: none;
+}
+
+.菜单项 {
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    background-color: #034c6a;
+    color: #ffffff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.菜单项:hover {
+    background-color: #4b8df8;
+}
+
+.内容区域 {
+    width: 75%;
+    background-color: #072951;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.表单区域 {
+    padding: 20px;
+}
+
+.表单区域 h3 {
+    color: #ffffff;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #4b8df8;
+    padding-bottom: 10px;
+}
+
+.表单组 {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.表单组 label {
+    width: 150px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.表单组 input {
+    flex: 1;
+    padding: 8px 10px;
+    border: 1px solid #4b8df8;
+    border-radius: 4px;
+    background-color: #081832;
+    color: #ffffff;
+}
+
+.按钮组 {
+    justify-content: center;
+}
+
+.提交按钮, .重置按钮 {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+.提交按钮 {
+    background-color: #4b8df8;
+    color: white;
+}
+
+.提交按钮:hover {
+    background-color: #2980b9;
+}
+
+.重置按钮 {
+    background-color: #7f8c8d;
+    color: white;
+}
+
+.重置按钮:hover {
+    background-color: #6c7a89;
+}
+h3{
+    color: #ffffff;
+}

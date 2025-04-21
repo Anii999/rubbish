@@ -1,0 +1,45 @@
+.article-detail {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+    border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.article-title {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.article-meta {
+    color: #aaa;
+    margin-bottom: 20px;
+}
+
+.article-content {
+    color: #ddd;
+    line-height: 1.6;
+}
+
+.back-link {
+    display: block;
+    margin: 20px auto;
+    width: 120px;
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px 20px;
+    background: rgba(76, 175, 80, 0.8);
+    border-radius: 4px;
+    transition: all 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.back-link:hover {
+    background: rgba(76, 175, 80, 1);
+    transform: scale(1.05);
+}

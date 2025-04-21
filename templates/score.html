@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>积分商城</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/score.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/zTreeStyle/zTreeStyle.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="header" style="position: fixed; top: 0; width: 100%; z-index: 1000;">
+        <div class="left nav">
+            <ul>
+                <li>
+                    <i class="fas fa-home icon-color"></i>
+                    <a href="{{ url_for('index') }}">首页</a>
+                </li>
+                <li>
+                    <i class="fas fa-search icon-color"></i>
+                    <a href="{{ url_for('detection') }}">检测</a>
+                </li>
+                <li>
+                    <i class="fas fa-leaf icon-color"></i>
+                    <a href="{{ url_for('knowledge') }}">环保知识</a>
+                </li>
+            </ul>
+        </div>
+        <div class="header_center left">
+            <h2><strong>智能垃圾分类系统</strong></h2>
+            <p class="color_font"><small>Smart waste sorting system</small></p>
+        </div>
+        <div class="right nav text_right">
+            <ul>
+                <li>
+                    <i class="fas fa-gamepad icon-color"></i>
+                    <a href="{{ url_for('game') }}">小游戏</a>
+                </li>
+                <li class="nav_active">
+                    <i class="fas fa-shopping-bag icon-color"></i>
+                    <a href="{{ url_for('score') }}">积分商城</a>
+                </li>
+                <li>
+                    <i class="fas fa-user icon-color"></i>
+                    <a href="{{ url_for('user_manage') }}">用户管理</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- 主内容 -->
+    <main style="margin-top: 80px;">
+        <div class="积分显示">
+            <div class="用户信息">
+                <span id="user-id">用户ID: </span>
+                <span id="username">用户名: </span>
+                <span id="积分余额" class="积分余额">当前积分: </span>
+            </div>
+        </div>
+        <div class="content">
+            <!-- 排行榜 -->
+            <div class="排行榜">
+                <h3>积分排行榜</h3>
+                <table class="排行榜表格" id="ranking-table">
+                    <thead>
+                        <tr>
+                            <th>排名</th>
+                            <th>用户ID</th>
+                            <th>用户名</th>
+                            <th>积分</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 动态填充的数据 -->
+                    </tbody>
+                </table>
+            </div>
+            <!-- 礼品列表 -->
+            <div class="礼品列表">
+                <h3>礼品列表</h3>
+                <div class="礼品卡片容器" id="gift-container">
+                    <!-- 动态生成礼品卡片 -->
+                </div>
+            </div>
+            <!-- 兑换记录 -->
+            <div class="兑换记录">
+                <h3>兑换记录</h3>
+                <table class="兑换记录表格" id="exchange-table">
+                    <thead>
+                        <tr>
+                            <th>兑换时间</th>
+                            <th>用户ID</th>
+                            <th>用户名</th>
+                            <th>礼品</th>
+                        </tr>
+                    </thead>
+                    <tbody id="exchange-list">
+                        <!-- 动态生成兑换记录 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/jquery/jQuery-2.2.0.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            // 获取用户信息
+            $.ajax({
+                url: "{{ url_for('get_user_info') }}",
+                method: "GET",
+                success: function(response) {
+                    if (response.success) {
+                        // 更新页面上的用户信息
+                        $("#user-id").text("用户ID: " + response.user_id);
+                        $("#username").text("用户名: " + response.username);
+                        $(".积分余额").text("当前积分: " + response.points);
+                        // 存储用户信息到 sessionStorage
+                        sessionStorage.setItem('user_id', response.user_id);
+                        sessionStorage.setItem('username', response.username);
+                        sessionStorage.setItem('points', response.points);
+                    } else {
+                        alert(response.message);
+                        window.location.href = "{{ url_for('userlogin') }}";
+                    }
+                },
+                error: function() {
+                    alert("获取用户信息失败");
+                    window.location.href = "{{ url_for('userlogin') }}";
+                }
+            });
+
+            // 加载礼品列表
+            loadGifts();
+        });
+
+        // 加载礼品列表
+        function loadGifts() {
+            $.ajax({
+                url: "{{ url_for('gifts') }}",
+                method: "GET",
+                success: function(response) {
+                    var giftContainer = $("#gift-container");
+                    giftContainer.empty();
+
+                    if (response && response.length > 0) {
+                        response.forEach(function(gift) {
+                            var giftCard = `
+                            <div class="礼品卡片">
+                                <div class="礼品图片">
+                                    <img src="/static/images/${gift.image_path}" alt="${gift.gift_name}">
+                                </div>
+                                <div class="礼品信息">
+                                    <div class="礼品名称">${gift.gift_name}</div>
+                                    <div class="所需积分">所需积分: ${gift.points_required}</div>
+                                    <button class="兑换按钮" data-gift-id="${gift.gift_id}" data-points="${gift.points_required}">兑换</button>
+                                </div>
+                            </div>
+                        `;
+                            giftContainer.append(giftCard);
+                        });
+                    } else {
+                        giftContainer.append('<p class="无礼品提示">暂无礼品数据</p>');
+                    }
+                },
+                error: function() {
+                    console.error("获取礼品数据失败");
+                    $("#gift-container").append('<p class="无礼品提示">获取礼品数据失败</p>');
+                }
+            });
+        }
+
+        // 更新排行榜
+        function updateRanking() {
+            $.ajax({
+                url: "{{ url_for('get_ranking') }}",
+                method: "GET",
+                success: function(response) {
+                    var rankingTable = $("#ranking-table tbody");
+                    rankingTable.empty();
+
+                    response.forEach(function(user, index) {
+                        var row = $("<tr></tr>");
+                        row.append($("<td></td>").text(index + 1));
+                        row.append($("<td></td>").text(user.user_id));
+                        row.append($("<td></td>").text(user.username));
+                        row.append($("<td></td>").text(user.points));
+                        rankingTable.append(row);
+                    });
+                },
+                error: function() {
+                    console.error("获取排行榜数据失败");
+                }
+            });
+        }
+
+        // 页面加载时更新排行榜
+        $(document).ready(function() {
+            updateRanking();
+            // 每30秒更新一次排行榜
+            setInterval(updateRanking, 30000);
+        });
+
+        // 更新兑换记录
+
+        function updateExchangeRecords() {
+            $.ajax({
+                url: "{{ url_for('get_exchange_records') }}",
+                method: "GET",
+                success: function(response) {
+                    var exchangeList = $("#exchange-list");
+                    exchangeList.empty();
+
+                    if (response && response.length > 0) {
+                        response.forEach(function(record) {
+                            // 格式化兑换时间
+                            var formattedDate = formatDate(record.created_at);
+                            
+                            var row = $("<tr></tr>");
+                            row.append($("<td></td>").text(formattedDate));
+                            row.append($("<td></td>").text(record.user_id));
+                            row.append($("<td></td>").text(record.username));
+                            row.append($("<td></td>").text(record.gift_name));
+                            exchangeList.append(row);
+                        });
+                    } else {
+                        var noDataRow = $("<tr></tr>");
+                        noDataRow.append($("<td></td>").attr("colspan", 4).text("暂无兑换记录"));
+                        exchangeList.append(noDataRow);
+                    }
+                },
+                error: function() {
+                    console.error("获取兑换记录失败");
+                }
+            });
+        }
+
+        // 格式化日期为 YYYY-MM-DD
+        function formatDate(dateString) {
+            if (!dateString) return "";
+            var date = new Date(dateString);
+            var year = date.getFullYear();
+            var month = String(date.getMonth() + 1).padStart(2, '0');
+            var day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // 页面加载时更新兑换记录
+        $(document).ready(function() {
+            updateExchangeRecords();
+            // 每30秒更新一次兑换记录
+            setInterval(updateExchangeRecords, 30000);
+        });
+
+        // 兑换按钮点击处理
+        $(document).on('click', '.兑换按钮', function() {
+            var giftId = $(this).data('gift-id');
+            var pointsRequired = $(this).data('points');
+            
+            // 获取用户信息
+            var userId = sessionStorage.getItem('user_id');
+            var userPoints = parseInt(sessionStorage.getItem('points'));
+            
+            if (!userId) {
+                alert('请先登录');
+                window.location.href = "{{ url_for('userlogin') }}";
+                return;
+            }
+            
+            if (userPoints < pointsRequired) {
+                alert('积分不足');
+                return;
+            }
+            
+            // 发送兑换请求
+            $.ajax({
+                url: "{{ url_for('exchange') }}",
+                method: "POST",
+                data: {
+                    gift_id: giftId
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert('兑换成功');
+                        // 更新用户积分
+                        sessionStorage.setItem('points', response.new_points);
+                        $(".积分余额").text("当前积分: " + response.new_points);
+                        // 刷新礼品列表和兑换记录
+                        loadGifts();
+                        updateExchangeRecords();
+                    } else {
+                        alert('兑换失败: ' + response.message);
+                    }
+                },
+                error: function() {
+                    alert('兑换请求失败，请重试');
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+ /* 全局布局样式 */
+ body {
+  overflow: hidden;
+  height: 100vh;
+}
+
+.con1 {
+  height: calc(100vh - 60px);
+  /* 减去header高度 */
+  display: flex;
+  overflow: hidden;
+}
+
+/* 图标颜色样式 */
+.icon-color {
+  color: #ffffff;
+}
+
+/* 左侧统计区域样式 */
+.car_center {
+  padding: 15px;
+  box-sizing: border-box;
+  height: 100%;
+  overflow: scroll;
+}
+
+/* 右侧检测区域样式 */
+.detection-area {
+  height: 100%;
+  margin: 0;
+  background: rgba(0, 40, 80, 0.3);
+  border: 1px solid #016ae0;
+  border-radius: 5px;
+  padding: 15px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.detection-content {
+  flex: 1;
+  display: flex;
+  gap: 20px;
+  overflow: hidden;
+}
+
+.detection-left {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.detection-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.preview-area {
+  flex: 1;
+  margin-bottom: 70px;
+  position: relative;
+  overflow: hidden;
+}
+
+#previewImage,
+#videoElement,
+#uploadedVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.detection-buttons {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  padding: 0 15px;
+  z-index: 10;
+}
+
+.detection-btn {
+  padding: 5px 20px;
+  min-width: 120px;
+  background: linear-gradient(to bottom, #0275d8, #025aa5);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 0.6rem;
+}
+
+.detection-btn:hover {
+  background: linear-gradient(to bottom, #025aa5, #014682);
+  transform: translateY(-2px);
+}
+
+.result-box {
+  background: rgba(0, 40, 80, 0.5);
+  border: 1px solid #016ae0;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.result-info {
+  flex: 1;
+  overflow: auto;
+  padding: 15px;
+  background: rgba(0, 40, 80, 0.3);
+  border-radius: 5px;
+}
+
+#uploadText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #016ae0;
+  width: 100%;
+  padding: 20px;
+}
+
+.loading-overlay {
+  background: rgba(0, 40, 80, 0.8);
+  z-index: 1000;
+}
+
+/* 响应式调整 */
+@media (max-width: 1200px) {
+  .detection-buttons {
+      flex-wrap: wrap;
+  }
+
+  .detection-btn {
+      min-width: calc(50% - 10px);
+  }
+}
+
+.white-text {
+  color: white; /* 设置字体颜色为白色 */
+}

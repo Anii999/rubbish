@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link href="{{ url_for('static', filename='css/zTreeStyle/zTreeStyle.css') }}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/usermanage.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="header" style="position: fixed; top: 0; width: 100%; z-index: 1000;">
+        <div class="left nav">
+            <ul>
+                <li>
+                    <i class="fas fa-home icon-color"></i>
+                    <a href="{{ url_for('index') }}">首页</a>
+                </li>
+                <li>
+                    <i class="fas fa-search icon-color"></i>
+                    <a href="{{ url_for('detection') }}">检测</a>
+                </li>
+                <li>
+                    <i class="fas fa-leaf icon-color"></i>
+                    <a href="{{ url_for('knowledge') }}">环保知识</a>
+                </li>
+            </ul>
+        </div>
+        <div class="header_center left">
+            <h2><strong>智能垃圾分类系统</strong></h2>
+            <p class="color_font"><small>Smart waste sorting system</small></p>
+        </div>
+        <div class="right nav text_right">
+            <ul>
+                <li>
+                    <i class="fas fa-gamepad icon-color"></i>
+                    <a href="{{ url_for('game') }}">小游戏</a>
+                </li>
+                <li>
+                    <i class="fas fa-shopping-bag icon-color"></i>
+                    <a href="{{ url_for('score') }}">积分商城</a>
+                </li>
+                <li class="nav_active">
+                    <i class="fas fa-user icon-color"></i>
+                    <a href="{{ url_for('user_manage') }}">用户管理</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- 主内容 -->
+    <main style="margin-top: 80px;">
+        <div class="用户信息显示">
+        </div>
+        <div class="content">
+            <!-- 左侧菜单栏 -->
+            <div class="菜单栏">
+                <ul class="菜单列表">
+                    <li class="菜单项" id="登录按钮">用户登录</li>
+                    <li class="菜单项" id="注册按钮">用户注册</li>
+                    <li class="菜单项" id="修改按钮">用户修改</li>
+                </ul>
+            </div>
+            <!-- 右侧内容区域 -->
+            <div class="内容区域">
+                <!-- 用户登录表单 -->
+                <div class="表单区域" id="登录表单">
+                    <h3>用户登录</h3>
+                    <form id="登录表单内容">
+                        <div class="表单组">
+                            <label for="loginUserId">用户ID:</label>
+                            <input type="text" id="loginUserId" name="userId" required>
+                        </div>
+                        <div class="表单组">
+                            <label for="loginUserName">用户名:</label>
+                            <input type="text" id="loginUserName" name="username" required>
+                        </div>
+                        <div class="表单组">
+                            <label for="loginPassword">密码:</label>
+                            <input type="password" id="loginPassword" name="password" required>
+                        </div>
+                        <div class="表单组 按钮组">
+                            <button type="button" id="登录提交" class="提交按钮">登录</button>
+                        </div>
+                    </form>
+                    <div id="登录结果"></div>
+                </div>
+
+                <!-- 用户注册表单 -->
+                <div class="表单区域" id="注册表单" style="display: none;">
+                    <h3>用户注册</h3>
+                    <form id="注册表单内容">
+                        <div class="表单组">
+                            <label for="registerUserId">用户ID:</label>
+                            <input type="text" id="registerUserId" name="userId" required>
+                        </div>
+                        <div class="表单组">
+                            <label for="registerUserName">用户名:</label>
+                            <input type="text" id="registerUserName" name="username" required>
+                        </div>
+                        <div class="表单组">
+                            <label for="registerPassword">密码:</label>
+                            <input type="password" id="registerPassword" name="password" required>
+                        </div>
+                        <div class="表单组">
+                            <label for="confirmRegisterPassword">确认密码:</label>
+                            <input type="password" id="confirmRegisterPassword" name="confirmPassword" required>
+                        </div>
+                        <div class="表单组 按钮组">
+                            <button type="button" id="注册提交" class="提交按钮">注册</button>
+                        </div>
+                    </form>
+                    <div id="注册结果"></div>
+                </div>
+
+                <!-- 用户修改表单 -->
+                <div class="表单区域" id="修改表单" style="display: none;">
+                    <h3>用户修改</h3>
+                    <form id="修改表单内容">
+                        <div class="表单组">
+                            <label for="userId">用户ID:</label>
+                            <input type="text" id="userId" name="userId" required>
+                        </div>
+                        <div class="表单组">
+                            <label for="currentUserName">当前用户名:</label>
+                            <input type="text" id="currentUserName" name="currentUserName" required>
+                        </div>
+                        <div class="表单组">
+                            <label for="newUserName">修改用户名:</label>
+                            <input type="text" id="newUserName" name="newUserName" required>
+                        </div>
+                        <div class="表单组">
+                            <label for="originalPassword">原始密码:</label>
+                            <input type="password" id="originalPassword" name="originalPassword" required>
+                        </div>
+                        <div class="表单组">
+                            <label for="newPassword">新密码:</label>
+                            <input type="password" id="newPassword" name="newPassword" required>
+                        </div>
+                        <div class="表单组">
+                            <label for="confirmNewPassword">再次确认新密码:</label>
+                            <input type="password" id="confirmNewPassword" name="confirmNewPassword" required>
+                        </div>
+                        <div class="表单组 按钮组">
+                            <button type="button" id="修改提交" class="提交按钮">保存</button>
+                            <button type="button" id="修改重置" class="重置按钮">重置</button>
+                        </div>
+                    </form>
+                    <div id="修改结果"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/jquery/jQuery-2.2.0.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bg.js') }}"></script>
+    <script>
+        // 切换表单显示
+        $('#登录按钮').click(function() {
+            $('#登录表单').show();
+            $('#注册表单').hide();
+            $('#修改表单').hide();
+        });
+
+        $('#注册按钮').click(function() {
+            $('#登录表单').hide();
+            $('#注册表单').show();
+            $('#修改表单').hide();
+        });
+
+        $('#修改按钮').click(function() {
+            $('#登录表单').hide();
+            $('#注册表单').hide();
+            $('#修改表单').show();
+        });
+
+        /// 登录功能
+        $('#登录提交').click(function() {
+            const userId = $('#loginUserId').val();
+            const username = $('#loginUserName').val();
+            const password = $('#loginPassword').val();
+
+            // 使用 AJAX 提交登录信息
+            $.ajax({
+                type: "POST",
+                url: "{{ url_for('userlogin') }}",
+                data: {
+                    userId: userId,
+                    username: username,
+                    password: password
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#登录结果').html(`<p style="color: green;">登录成功！欢迎 ${username}</p>`);
+                        setTimeout(() => {
+                            window.location.href = "{{ url_for('game') }}";
+                        }, 1000);
+                    } else {
+                        $('#登录结果').html(`<p style="color: red;">${response.message}</p>`);
+                    }
+                },
+                error: function() {
+                    $('#登录结果').html(`<p style="color: red;">登录请求失败，请重试</p>`);
+                }
+            });
+        });
+
+        // 注册功能
+        $('#注册提交').click(function() {
+            const userId = $('#registerUserId').val();
+            const username = $('#registerUserName').val();
+            const password = $('#registerPassword').val();
+            const confirmPassword = $('#confirmRegisterPassword').val();
+
+            // 验证密码是否一致
+            if (password !== confirmPassword) {
+                $('#注册结果').html(`<p style="color: red;">两次输入的密码不一致！</p>`);
+                return;
+            }
+
+            // 使用 AJAX 提交注册信息
+            $.ajax({
+                type: "POST",
+                url: "{{ url_for('register') }}",
+                data: {
+                    userId: userId,
+                    username: username,
+                    password: password
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#注册结果').html(`<p style="color: green;">注册成功！请登录</p>`);
+                        setTimeout(() => {
+                            $('#登录按钮').click();
+                        }, 1000);
+                    } else {
+                        $('#注册结果').html(`<p style="color: red;">${response.message}</p>`);
+                    }
+                },
+                error: function() {
+                    $('#注册结果').html(`<p style="color: red;">注册请求失败，请重试</p>`);
+                }
+            });
+        });
+
+       // 修改功能
+       $('#修改提交').click(function() {
+            const userId = $('#userId').val();
+            const currentUserName = $('#currentUserName').val();
+            const newUserName = $('#newUserName').val();
+            const originalPassword = $('#originalPassword').val();
+            const newPassword = $('#newPassword').val();
+            const confirmNewPassword = $('#confirmNewPassword').val();
+
+            // 验证新密码是否一致
+            if (newPassword !== confirmNewPassword) {
+                $('#修改结果').html(`<p style="color: red;">两次输入的新密码不一致！</p>`);
+                return;
+            }
+
+            // 使用 AJAX 提交修改信息
+            $.ajax({
+                type: "POST",
+                url: "{{ url_for('update_user') }}",
+                data: {
+                    userId: userId,
+                    currentUserName: currentUserName,
+                    newUserName: newUserName,
+                    originalPassword: originalPassword,
+                    newPassword: newPassword
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#修改结果').html(`<p style="color: green;">修改成功！</p>`);
+                    } else {
+                        $('#修改结果').html(`<p style="color: red;">${response.message}</p>`);
+                    }
+                },
+                error: function() {
+                    $('#修改结果').html(`<p style="color: red;">修改请求失败，请重试</p>`);
+                }
+            });
+        });
+
+        // 重置修改表单
+        $('#修改重置').click(function() {
+            $('#userId').val('');
+            $('#currentUserName').val('');
+            $('#newUserName').val('');
+            $('#originalPassword').val('');
+            $('#newPassword').val('');
+            $('#confirmNewPassword').val('');
+            $('#修改结果').html('');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>环保知识</title>
+    <link rel="stylesheet" href="static/css/base.css">
+    <link rel="stylesheet" href="static/css/knowledge.css">
+    <link href="static/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/static/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .icon-color {
+            color: #ffffff;
+        }
+
+        body {
+            background-color: #081832;
+        }
+
+        main {
+            background-color: #081832;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <!--导航栏-->
+    <header class="header left">
+        <div class="left nav">
+            <ul>
+                <li>
+                    <i class="fas fa-home icon-color"></i>
+                    <a href="{{ url_for('index') }}">首页</a>
+                </li>
+                <li>
+                    <i class="fas fa-search icon-color"></i>
+                    <a href="{{ url_for('detection') }}">检测</a>
+                </li>
+                <li class="nav_active">
+                    <i class="fas fa-leaf icon-color"></i>
+                    <a href="{{ url_for('knowledge') }}">环保知识</a>
+                </li>
+            </ul>
+        </div>
+        <div class="header_center left">
+            <h2><strong>智能垃圾分类系统</strong></h2>
+            <p class="color_font"><small>Comprehensive service platform for smart tourism</small></p>
+        </div>
+        <div class="right nav text_right">
+            <ul>
+                <li>
+                    <i class="fas fa-gamepad icon-color"></i>
+                    <a href="{{ url_for('game') }}">小游戏</a>
+                </li>
+                <li>
+                    <i class="fas fa-shopping-bag icon-color"></i>
+                    <a href="{{ url_for('score') }}">积分商城</a>
+                </li>
+                <li>
+                    <i class="fas fa-user icon-color"></i>
+                    <a href="{{ url_for('user_manage') }}">用户管理</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- 左侧容器 (25%) -->
+            <div class="left-container">
+                <div class="categories">
+                    <h3>分类导航</h3>
+                    <div class="category-tags">
+                        <a href="#" class="tag">垃圾分类</a>
+                        <a href="#" class="tag">减少塑料使用</a>
+                        <a href="#" class="tag">节约资源</a>
+                        <a href="#" class="tag">绿色出行</a>
+                        <a href="#" class="tag">节能减排</a>
+                        <a href="#" class="tag">环保活动</a>
+                    </div>
+                </div>
+                <div class="hot-topics">
+                    <h3>热门话题</h3>
+                    <ul>
+                        <li><a href="#">如何减少塑料污染</a></li>
+                        <li><a href="#">节约用水的方法</a></li>
+                        <li><a href="#">家庭垃圾分类指南</a></li>
+                        <li><a href="#">如何参与社区环保活动</a></li>
+                    </ul>
+                </div>
+
+                <div id="category-content" class="category-content">
+                    <!-- 默认显示垃圾分类内容 -->
+                    <div class="content-section" id="waste-sorting">
+                        <h3>垃圾分类指南</h3>
+                        <p>1. 可回收物: 纸张、塑料、玻璃、金属等</p>
+                        <p>2. 厨余垃圾: 食物残渣、果皮等</p>
+                        <p>3. 有害垃圾: 电池、药品、化学品等</p>
+                        <p>4. 其他垃圾: 无法归类的垃圾</p>
+                    </div>
+
+                    <div class="content-section" id="plastic-reduction" style="display:none">
+                        <h3>减少塑料使用</h3>
+                        <p>1. 使用可重复使用的购物袋</p>
+                        <p>2. 避免使用一次性塑料制品</p>
+                        <p>3. 选择无包装或环保包装产品</p>
+                    </div>
+
+                    <div class="content-section" id="resource-saving" style="display:none">
+                        <h3>节约资源</h3>
+                        <p>1. 节约用水用电</p>
+                        <p>2. 减少食物浪费</p>
+                        <p>3. 回收利用物品</p>
+                    </div>
+
+                    <div class="content-section" id="green-travel" style="display:none">
+                        <h3>绿色出行</h3>
+                        <p>1. 步行或骑行短途出行</p>
+                        <p>2. 使用公共交通代替私家车</p>
+                        <p>3. 拼车共享减少车辆使用</p>
+                    </div>
+
+                    <div class="content-section" id="energy-saving" style="display:none">
+                        <h3>节能减排</h3>
+                        <p>1. 使用节能电器和LED灯具</p>
+                        <p>2. 合理设置空调温度(夏季26℃以上)</p>
+                        <p>3. 减少待机耗电，拔掉不用的电器插头</p>
+                    </div>
+
+                    <div class="content-section" id="eco-activities" style="display:none">
+                        <h3>环保活动</h3>
+                        <p>1. 参与社区垃圾分类宣传活动</p>
+                        <p>2. 参加植树造林等绿化活动</p>
+                        <p>3. 组织或参与环保志愿者活动</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 中间容器 (50%) -->
+            <div class="middle-container">
+                <div class="search-container">
+                    <input type="text" class="search_input" placeholder="搜索环保知识...">
+                    <button class="find_but"></button>
+                </div>
+                <div class="articles" style="height: 600px;">
+                    {% for article in articles %}
+                    <div class="article-card" id="article-{{ article.id }}">
+                        <img src="{{ url_for('static', filename='img/' ~ article.id ~ '.jpg') }}"
+                            alt="{{ article.title }}">
+                        <h3>{{ article.title }}</h3>
+                        <p class="date">发布日期: {{ article.date }}</p>
+                        <p class="description">{{ article.description }}</p>
+                        <a href="{{ url_for('article_detail', article_id=article.id) }}" class="read-more">阅读更多</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- 右侧容器 (25%) -->
+            <div class="right-container">
+                <div class="qa-section">
+                    <h3>问答区</h3>
+                    <div class="qa-item">
+                        <h4>如何正确进行垃圾分类?</h4>
+                        <p>回答: 可回收物、厨余垃圾、有害垃圾和其他垃圾需要分别投放到对应的垃圾桶中。</p>
+                    </div>
+                    <div class="qa-item">
+                        <h4>如何减少家庭能源消耗?</h4>
+                        <p>回答: 使用节能灯具，不用电器时拔掉插头，合理设置空调温度。</p>
+                    </div>
+                    <div class="qa-item">
+                        <h4>电子废弃物该如何处理?</h4>
+                        <p>回答: 应送至专门的电子废弃物回收点，不可随意丢弃以免污染环境。</p>
+                    </div>
+                    <div class="qa-item">
+                        <h4>如何减少塑料污染?</h4>
+                        <p>回答: 使用可重复使用的购物袋、水杯，避免使用一次性塑料制品。</p>
+                    </div>
+                    <div class="qa-item">
+                        <h4>厨余垃圾堆肥有什么好处?</h4>
+                        <p>回答: 可以减少垃圾量，同时为植物提供天然肥料，实现资源循环利用。</p>
+                    </div>
+                    <div class="qa-item">
+                        <h4>绿色出行有哪些方式?</h4>
+                        <p>回答: 步行、骑行、公共交通、拼车等都是环保的出行方式。</p>
+                    </div>
+                    <div class="qa-item">
+                        <h4>如何节约用水?</h4>
+                        <p>回答: 修理漏水龙头，缩短洗澡时间，收集雨水浇花，使用节水器具。</p>
+                    </div>
+                    <div class="qa-item">
+                        <h4>环保购物需要注意什么?</h4>
+                        <p>回答: 选择环保认证产品，减少包装浪费，支持可持续发展的品牌。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 热门话题点击跳转到对应文章
+            const hotTopics = document.querySelectorAll('.hot-topics li a');
+            hotTopics.forEach((topic, index) => {
+                topic.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const articleId = 'article-' + (index + 1);
+                    const article = document.getElementById(articleId);
+                    if (article) {
+                        article.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            const searchButton = document.querySelector('.find_but');
+            const searchInput = document.querySelector('.search_input');
+
+            searchButton.addEventListener('click', function () {
+                const searchTerm = searchInput.value.trim();
+                if (searchTerm) {
+                    alert(`您正在搜索: ${searchTerm}`);
+                }
+            });
+
+            const categoryTags = document.querySelectorAll('.tag');
+            categoryTags.forEach(tag => {
+                tag.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    categoryTags.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // 显示对应分类内容
+                    const contentId = this.textContent.trim().toLowerCase().replace(/\s+/g, '-');
+                    document.querySelectorAll('.content-section').forEach(section => {
+                        section.style.display = 'none';
+                    });
+
+                    if (contentId === '垃圾分类') {
+                        document.getElementById('waste-sorting').style.display = 'block';
+                    } else if (contentId === '减少塑料使用') {
+                        document.getElementById('plastic-reduction').style.display = 'block';
+                    } else if (contentId === '节约资源') {
+                        document.getElementById('resource-saving').style.display = 'block';
+                    } else if (contentId === '绿色出行') {
+                        document.getElementById('green-travel').style.display = 'block';
+                    } else if (contentId === '节能减排') {
+                        document.getElementById('energy-saving').style.display = 'block';
+                    } else if (contentId === '环保活动') {
+                        document.getElementById('eco-activities').style.display = 'block';
+                    }
+                });
+            });
+
+            const qaItems = document.querySelectorAll('.qa-item');
+            qaItems.forEach(item => {
+                const question = item.querySelector('h4');
+                question.addEventListener('click', function () {
+                    const answer = item.querySelector('p');
+                    if (answer.style.display === 'none') {
+                        answer.style.display = 'block';
+                    } else {
+                        answer.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

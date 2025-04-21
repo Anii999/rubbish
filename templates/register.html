@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户注册</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/userlogin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="login-container">
+            <div class="login-header">
+                <img src="{{ url_for('static', filename='img/loginLogo.png') }}" alt="Logo" class="login-logo">
+            </div>
+            <div class="login-form">
+                <h3>用户注册</h3>
+                <form id="register-form" action="{{ url_for('register') }}" method="post">
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="flash-messages">
+                        {% for message in messages %}
+                        <div class="flash-message">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+                    <div class="form-group">
+                        <label for="userId">用户ID:</label>
+                        <input type="text" id="userId" name="userId" placeholder="请输入用户ID" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="username">用户名:</label>
+                        <input type="text" id="username" name="username" placeholder="请输入用户名" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">密码:</label>
+                        <input type="password" id="password" name="password" placeholder="请输入密码" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">确认密码:</label>
+                        <input type="password" id="confirm-password" name="confirm-password" placeholder="请再次输入密码"
+                            required>
+                    </div>
+                    <div class="form-group button-group">
+                        <button type="submit" id="register-button" class="submit-button">注册</button>
+                    </div>
+                </form>
+                <div class="additional-links">
+                    <p>已有账号? <a href="{{ url_for('userlogin') }}">前往登录</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/jquery/jQuery-2.2.0.min.js') }}"></script>
+    <script>
+        $("#register-form").submit(function (event) {
+            var userId = $("#userId").val();
+            var username = $("#username").val();
+            var password = $("#password").val();
+            var confirmPassword = $("#confirm-password").val();
+
+            if (!userId) {
+                alert("请输入用户ID！");
+                event.preventDefault();
+                return;
+            }
+
+            if (!username) {
+                alert("请输入用户名！");
+                event.preventDefault();
+                return;
+            }
+
+            if (!password) {
+                alert("请输入密码！");
+                event.preventDefault();
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert("两次输入的密码不一致！");
+                event.preventDefault();
+                return;
+            }
+
+            // 阻止默认表单提交行为
+            event.preventDefault();
+
+            $.ajax({
+                type: "POST",
+                url: $(this).attr("action"),
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        if (response.redirect) {
+                            window.location.href = response.redirect;
+                        } else {
+                            alert("注册成功！请登录");
+                            window.location.href = "{{ url_for('userlogin') }}";
+                        }
+                    } else {
+                        alert("注册失败: " + response.message);
+                    }
+                },
+                error: function () {
+                    alert("注册请求失败，请检查网络连接或联系管理员");
+                }
+            });
+        });
+    </script>
+
+    <script src="{{ url_for('static', filename='js/register.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery/jquery.validate.min.js') }}"></script>
+</body>
+
+</html>

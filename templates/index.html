@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* 图标颜色样式 */
+        .icon-color {
+            color: #ffffff;
+        }
+
+        .icon-color {
+            color: #ffffff !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 顶部导航 -->
+    <header class="header left">
+        <div class="left nav">
+            <ul>
+                <li class="nav_active">
+                    <i class="fas fa-home icon-color"></i>
+                    <a href="{{ url_for('index') }}">首页</a>
+                </li>
+                <li>
+                    <i class="fas fa-search icon-color"></i>
+                    <a href="{{ url_for('detection') }}">检测</a>
+                </li>
+                <li>
+                    <i class="fas fa-leaf icon-color"></i>
+                    <a href="{{ url_for('knowledge') }}">环保知识</a>
+                </li>
+            </ul>
+        </div>
+        <div class="header_center left">
+            <h2><strong>智能垃圾分类系统</strong></h2>
+            <p class="color_font"><small>Comprehensive service platform for smart tourism</small></p>
+        </div>
+        <div class="right nav text_right">
+            <ul>
+                <li>
+                    <i class="fas fa-gamepad icon-color"></i>
+                    <a href="{{ url_for('game') }}">小游戏</a>
+                </li>
+                <li>
+                    <i class="fas fa-shopping-bag icon-color"></i>
+                    <a href="{{ url_for('score') }}">积分商城</a>
+                </li>
+                <li>
+                    <i class="fas fa-user icon-color"></i>
+                    <a href="{{ url_for('user_manage') }}">用户管理</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <!--内容部分-->
+    <div class="con left">
+        <div class="container">
+            <!--时间显示模块-->
+            <div class="select_time">
+                <div class="static_top left"></div>
+            </div>
+            <!-- 搜索框模块 -->
+            <div class="right-search_time">
+                <input type="text" class="search_input" placeholder=" 搜索">
+                <button class="find_but"></button>
+            </div>
+        </div>
+
+
+        <!--垃圾分类展示-->
+        <div class="con_div">
+            <!--可回收物-->
+            <div class="garbage_container left">
+                <div class="garbage_left">
+                    <img src="static/img/可回收物.png" class="garbage_img" />
+                    <div class="garbage_name">可回收物</div>
+                </div>
+                <div class="garbage_right">
+                    <div class="garbage_desc">
+                        可回收物主要包括废纸、塑料、玻璃、金属和布料五大类。这些垃圾通过综合处理回收利用，可以减少污染，节省资源。如每回收1吨废纸可造好纸850公斤，节省木材300公斤，比等量生产减少污染74%。
+                    </div>
+                </div>
+            </div>
+
+            <!--厨余垃圾-->
+            <div class="garbage_container left">
+                <div class="garbage_left">
+                    <img src="static/img/厨余垃圾.png" class="garbage_img" />
+                    <div class="garbage_name">厨余垃圾</div>
+                </div>
+                <div class="garbage_right">
+                    <div class="garbage_desc">
+                        厨余垃圾包括剩菜剩饭、骨头、菜根菜叶、果皮等食品类废物。经生物技术就地处理堆肥，每吨可生产0.3吨有机肥料。这些垃圾含有极高的水分与有机物，很容易腐坏，产生恶臭。
+                    </div>
+                </div>
+            </div>
+
+            <!--有害垃圾-->
+            <div class="garbage_container left">
+                <div class="garbage_left">
+                    <img src="static/img/有害垃圾.png" class="garbage_img" />
+                    <div class="garbage_name">有害垃圾</div>
+                </div>
+                <div class="garbage_right">
+                    <div class="garbage_desc">
+                        有害垃圾含有对人体健康有害的重金属、有毒的物质或者对环境造成现实危害或者潜在危害的废弃物。包括电池、荧光灯管、灯泡、水银温度计、油漆桶、部分家电、过期药品、过期化妆品等。这些垃圾一般使用单独回收或填埋处理。
+                    </div>
+                </div>
+            </div>
+
+            <!--其他垃圾-->
+            <div class="garbage_container left">
+                <div class="garbage_left">
+                    <img src="static/img/其他垃圾.png" class="garbage_img" />
+                    <div class="garbage_name">其他垃圾</div>
+                </div>
+                <div class="garbage_right">
+                    <div class="garbage_desc">
+                        其他垃圾包括除上述几类垃圾之外的砖瓦陶瓷、渣土、卫生间废纸、纸巾等难以回收的废弃物及果壳、尘土。采取卫生填埋可有效减少对地下水、地表水、土壤及空气的污染。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--统计分析图-->
+        <div class="div_any">
+            <div class="left div_any01">
+                <!-- 系统简介 -->
+                <div class="div_any_child">
+                    <div class="div_any_title">
+                        <img src="static/img/rubbish.png" class="white-icon">系统简介
+                    </div>
+                    <div class="intro-content"
+                        style="height: 230px; margin-top: 10px; overflow-y: auto; color: #ffffff; font-size: 16px; line-height: 1.6; padding: 10px 10px 10px 15px;">
+                        本系统是基于深度学习的垃圾分类检测识别系统，采用YOLOv8模型和PyQt5界面，能快速识别垃圾图像并分类。系统通过多源数据采集、增强和标准化处理构建高质量数据集，训练中运用多种优化手段，提升检测精度和实时性。实际应用中，可实时接收图像并快速返回垃圾名称、类别等信息，训练集准确率超95%，测试集约90%，泛化能力强。适用于城市设施、家庭设备等，能提高资源回收率，助力环保。未来，随着技术发展，系统有望在准确率和速度上实现更高突破，为智能垃圾分类和环保事业贡献力量。
+                        本系统是基于深度学习的垃圾分类检测识别系统，采用YOLOv8模型和PyQt5界面，能快速识别垃圾图像并分类。系统通过多源数据采集、增强和标准化处理构建高质量数据集，训练中运用多种优化手段，提升检测精度和实时性。实际应用中，可实时接收图像并快速返回垃圾名称、类别等信息，训练集准确率超95%，测试集约90%，泛化能力强。适用于城市设施、家庭设备等，能提高资源回收率，助力环保。未来，随着技术发展，系统有望在准确率和速度上实现更高突破，为智能垃圾分类和环保事业贡献力量。
+                    </div>
+                </div>
+
+                <!-- 检测结果统计 -->
+                <div class="div_any_child">
+                    <div class="div_any_title"><img src="static/img/title_4.png">检测结果统计 </div>
+                    <p id="char1" class="p_chart"></p>
+                </div>
+            </div>
+
+            <!-- 视频播放 -->
+            <div class="div_any02 left ">
+                <div>
+                    <video id="video_div" controls autoplay loop muted
+                        style="width:100%; height:592px; margin-top:10px;">
+                        <source src="static/img/index-video.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+
+            <!-- 右侧中间两个区域 -->
+            <div class="right div_any01">
+                <!-- 垃圾总量分析 -->
+                <div class="div_any_child">
+                    <div class="div_any_title"><img src="static/img/title_2.png">垃圾总量分析</div>
+                    <p id="char2" class="p_chart"></p>
+                </div>
+                <!-- 环保资讯滚动公告 -->
+                <div class="div_any_child">
+                    <div class="div_any_title"><img src="static/img/环保资讯.png">环保资讯 </div>
+                    <div class="announcement-container">
+                        <div class="announcement-content">
+                            <p>公告1：智能垃圾分类系统正式上线</p>
+                            <p>公告2：垃圾分类可获得积分奖励</p>
+                            <p>公告3：积分可在商城兑换礼品</p>
+                            <p>公告4：垃圾分类小游戏已上线</p>
+                            <p>公告5：系统维护通知：今晚23:00-24:00</p>
+                            <p>公告6：垃圾分类知识竞赛即将开始</p>
+                            <p>公告7：新增垃圾分类投放点5处</p>
+                            <p>公告8：垃圾分类优秀用户表彰</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--分析表格-->
+
+    </div>
+
+
+    <script src="{{ url_for('static', filename='js/jquery/jQuery-2.2.0.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/echarts-all.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery/jQuery-2.2.0.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+
+</body>
+
+</html>

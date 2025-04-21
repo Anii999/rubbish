@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户登录</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/userlogin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+</head>
+<body>
+    
+    <!-- 内容部分 -->
+    <div class="container">
+        <div class="login-container">
+            <div class="login-header">
+                <img src="{{ url_for('static', filename='img/loginLogo.png') }}" alt="Logo" class="login-logo">
+            </div>
+            <div class="login-form">
+                <h3>用户登录</h3>
+                <form id="login-form" action="{{ url_for('userlogin') }}" method="post">
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            <div class="flash-messages">
+                                {% for message in messages %}
+                                    <div class="flash-message">{{ message }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                    <div class="form-group">
+                        <label for="username">用户名:</label>
+                        <input type="text" id="username" name="username" placeholder="请输入用户名" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">密码:</label>
+                        <input type="password" id="password" name="password" placeholder="请输入密码">
+                    </div>
+                    <div class="form-group button-group">
+                        <button type="submit" id="login-button" class="submit-button">登录</button>
+                    </div>
+                </form>
+                <div class="additional-links">
+                    <p>没有账号? <a href="{{ url_for('register') }}">前往注册</a></p>
+                    <p>忘记密码请联系管理员</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/jquery/jQuery-2.2.0.min.js') }}"></script>
+    <script>
+        // 登录功能
+        $("#login-form").submit(function(event) {
+            event.preventDefault();
+            var username = $("#username").val();
+            var password = $("#password").val();
+
+            if (!username || !password) {
+                alert("请输入用户名和密码！");
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: $(this).attr("action"),
+                data: $(this).serialize(),
+                success: function(response) {
+                    if (response.success) {
+                        window.location.href = response.redirect;
+                    } else {
+                        alert("登录失败: " + response.message);
+                    }
+                },
+                error: function() {
+                    alert("登录请求失败");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

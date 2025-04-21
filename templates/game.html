@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>智能垃圾分类系统 - 游戏</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/zTreeStyle/zTreeStyle.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="header" style="position: fixed; top: 0; width: 100%; z-index: 1000;">
+        <div class="left nav">
+            <ul>
+                <li>
+                    <i class="fas fa-home icon-color"></i>
+                    <a href="{{ url_for('index') }}">首页</a>
+                </li>
+                <li>
+                    <i class="fas fa-search icon-color"></i>
+                    <a href="{{ url_for('detection') }}">检测</a>
+                </li>
+                <li>
+                    <i class="fas fa-leaf icon-color"></i>
+                    <a href="{{ url_for('knowledge') }}">环保知识</a>
+                </li>
+            </ul>
+        </div>
+        <div class="header_center left">
+            <h2><strong>智能垃圾分类系统</strong></h2>
+            <p class="color_font"><small>Smart waste sorting system</small></p>
+        </div>
+        <div class="right nav text_right">
+            <ul>
+                <li class="nav_active">
+                    <i class="fas fa-gamepad icon-color"></i>
+                    <a href="{{ url_for('game') }}">小游戏</a>
+                </li>
+                <li>
+                    <i class="fas fa-shopping-bag icon-color"></i>
+                    <a href="{{ url_for('score') }}">积分商城</a>
+                </li>
+                <li>
+                    <i class="fas fa-user icon-color"></i>
+                    <a href="{{ url_for('user_manage') }}">用户管理</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <main style="margin-top: 80px;">
+        <section class="game-container">
+            <div class="game-content">
+                <!-- 开始界面 -->
+                <div class="start-screen" id="startScreen">
+                    <h1 class="game-title">垃圾分类挑战</h1>
+                    <p class="game-description">在60秒内，将尽可能多的垃圾正确分类！连续正确可获得连击奖励！准备好了吗？</p>
+                    <button class="start-btn" id="startBtn">开始游戏</button>
+                </div>
+
+                <!-- 游戏界面 -->
+                <div class="game-screen" id="gameScreen">
+                    <div class="info-bar">
+                        <div class="score-display" id="scoreDisplay">分数: 0</div>
+                        <div class="combo-display" id="comboDisplay">连击: 0 | 最佳: 0</div>
+                        <div class="time-display" id="timeDisplay">时间: 60s</div>
+                    </div>
+
+                    <div class="current-item">
+                        <div class="item-container">
+                            <div class="item-icon" id="itemIcon">
+                                <!-- 物品图标将在这里动态插入 -->
+                            </div>
+                            <div class="item-name" id="itemName">
+                                <!-- 物品名称将在这里动态插入 -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="categories">
+                        <button class="category-btn recyclable" data-category="recyclable">
+                            <span class="category-icon">♻️</span>
+                            <span>可回收物</span>
+                        </button>
+                        <button class="category-btn hazardous" data-category="hazardous">
+                            <span class="category-icon">⚠️</span>
+                            <span>有害垃圾</span>
+                        </button>
+                        <button class="category-btn food" data-category="food">
+                            <span class="category-icon">🍎</span>
+                            <span>厨余垃圾</span>
+                        </button>
+                        <button class="category-btn other" data-category="other">
+                            <span class="category-icon">🗑️</span>
+                            <span>其他垃圾</span>
+                        </button>
+                    </div>
+
+
+
+                    <div class="history-panel">
+                        <div class="history-title">历史记录:</div>
+                        <div class="history-items" id="historyItems">
+                            <!-- 历史记录将在这里动态插入 -->
+                        </div>
+                    </div>
+
+                    <!-- 添加结束游戏按钮 -->
+                    <button class="end-btn" id="endBtn" style="display: none;">结束游戏</button>
+                </div>
+
+                <!-- 结束界面 -->
+                <div class="end-screen" id="endScreen">
+                    <h2 class="end-title">游戏结束！</h2>
+
+                    <div class="result-container">
+                        <div class="final-score-label">最终得分</div>
+                        <div class="final-score" id="finalScore">0</div>
+
+                        <div class="stats-grid">
+                            <div>
+                                <div class="stat-label">最佳连击</div>
+                                <div class="stat-value best-combo" id="finalBestCombo">0</div>
+                            </div>
+                            <div>
+                                <div class="stat-label">游戏时长</div>
+                                <div class="stat-value">60秒</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="restart-btn" id="restartBtn">再来一次</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- <script>
+        // 在页面加载时获取用户ID
+        let userId = null;
+        {% if 'user_id' in session %}
+        userId = {{ session['user_id'] }};
+        {% endif %}
+    </script>
+     -->
+    <script src="{{ url_for('static', filename='js/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/zTreeStyle/jquery.ztree.core.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+</body>
+
+</html>

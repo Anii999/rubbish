@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <title>检测系统</title>
+    <link rel="stylesheet" href="static/css/base.css">
+    <link rel="stylesheet" href="static/css/detection.css">
+    <link href="static/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/static/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .icon-color {
+            color: #ffffff;
+        }
+
+        body {
+            background-color: #081832;
+        }
+
+        main {
+            background-color: #081832;
+            padding: 20px;
+        }
+    </style>
+    <!-- 添加 jQuery 和 ECharts -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+</head>
+
+<body>
+    <!-- 顶部导航 -->
+    <header class="header left">
+        <div class="left nav">
+            <ul>
+                <li>
+                    <i class="fas fa-home icon-color"></i>
+                    <a href="{{ url_for('index') }}">首页</a>
+                </li>
+                <li class="nav_active">
+                    <i class="fas fa-search icon-color"></i>
+                    <a href="{{ url_for('detection') }}">检测</a>
+                </li>
+                <li>
+                    <i class="fas fa-leaf icon-color"></i>
+                    <a href="{{ url_for('knowledge') }}">环保知识</a>
+                </li>
+            </ul>
+        </div>
+        <div class="header_center left">
+            <h2><strong>智能垃圾分类系统</strong></h2>
+            <p class="color_font"><small>Comprehensive service platform for smart tourism</small></p>
+        </div>
+        <div class="right nav text_right">
+            <ul>
+                <li>
+                    <i class="fas fa-gamepad icon-color"></i>
+                    <a href="{{ url_for('game') }}">小游戏</a>
+                </li>
+                <li>
+                    <i class="fas fa-shopping-bag icon-color"></i>
+                    <a href="{{ url_for('score') }}">积分商城</a>
+                </li>
+                <li>
+                    <i class="fas fa-user icon-color"></i>
+                    <a href="{{ url_for('user_manage') }}">用户管理</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <!--内容部分-->
+    <div class="con1 left" id="car_control">
+
+        <!-- 垃圾分类科普 -->
+        <div class="left car_center" style="position: relative; height: 100%; width: 50%; ">
+
+            <div style=" height: 150%; overflow:scroll;">
+                <!-- 第一行 -->
+                <div style="position: absolute; width: 48%; height: 30%; left: 1%; top: 5%;">
+                    <div class="div_any_child" style="height: 100%;">
+                        <div class="div_any_title">可回收物</div>
+                        <div id="pie1" style="height: calc(100% - 30px);"></div>
+                    </div>
+                </div>
+                <div style="position: absolute; width: 48%; height: 30%; right: 1%; top: 5%;">
+                    <div class="div_any_child" style="height: 100%;">
+                        <div class="div_any_title">厨余垃圾</div>
+                        <div id="pie2" style="height: calc(100% - 1px);"></div>
+                    </div>
+                </div>
+
+                <!-- 第二行 -->
+                <div style="position: absolute; width: 48%; height: 30%; left: 1%; top: 38%;">
+                    <div class="div_any_child" style="height: 100%;">
+                        <div class="div_any_title">有害垃圾</div>
+                        <div id="pie3" style="height: calc(100% - 1px);"></div>
+                    </div>
+                </div>
+                <div style="position: absolute; width: 48%; height: 30%; right: 1%; top: 38%;">
+                    <div class="div_any_child" style="height: 100%;">
+                        <div class="div_any_title">其他垃圾</div>
+                        <div id="pie4" style="height: calc(100% - 1px);"></div>
+                    </div>
+                </div>
+
+                <!-- 第三行 -->
+                <div style="position: absolute; width: 98%; height: 100%;top: 65%;">
+                    <div class="div_any_child" style="height: 90%;margin-top: 30%;">
+                        <div class="div_any_title">垃圾分类处理量趋势</div>
+                        <div id="barChart" style="margin-top: 10%; height: calc(100% - 15px);"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 垃圾检测功能 -->
+        <div class="right car_center" style="position: relative; height: 100%; width: 64%;">
+            <div class="detection-area">
+                <div class="detection-title"
+                    style="color: #fff; font-size: 20px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #016ae0; text-align: center;">
+                    垃圾检测系统
+                </div>
+                <div class="detection-content">
+                    <div class="detection-left">
+                        <div class="preview-area" id="dropArea"
+                            style="border: 2px dashed #016ae0; background: rgba(0, 40, 80, 0.2); cursor: pointer;">
+                            <div class="loading-overlay" id="loadingOverlay"
+                                style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: none; align-items: center; justify-content: center;">
+                                <div class="loading-spinner"
+                                    style="width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #016ae0; border-radius: 50%; animation: spin 1s linear infinite;">
+                                </div>
+                            </div>
+                            <img id="previewImage" src="" alt="预览图" style="display: none;">
+                            <video id="videoElement" style="display: none;" autoplay playsinline></video>
+                            <video id="uploadedVideo" style="display: none;" controls></video>
+                            <canvas id="videoCanvas" style="display: none;"></canvas>
+                            <div id="uploadText">
+                                <i class="fas fa-cloud-upload-alt"
+                                    style="font-size: 48px; margin-bottom: 10px; display: block;"></i>
+                                <div>拖拽图片到此处或点击上传</div>
+                                <div style="font-size: 12px; opacity: 0.7; margin-top: 10px;">支持 PNG、JPG、JPEG、GIF 格式
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detection-buttons">
+                            <button class="detection-btn" id="imageDetectBtn">
+                                <i class="fas fa-search"></i>
+                                <span>图片检测</span>
+                            </button>
+                            <button class="detection-btn" id="cameraDetectBtn">
+                                <i class="fas fa-camera"></i>
+                                <span>开启摄像头</span>
+                            </button>
+                            <button class="detection-btn" id="videoDetectBtn">
+                                <i class="fas fa-video"></i>
+                                <span>视频检测</span>
+                            </button>
+                            <button class="detection-btn" id="stopDetectBtn"
+                                style="display: none; background: linear-gradient(to bottom, #dc3545, #c82333);">
+                                <i class="fas fa-stop"></i>
+                                <span>停止检测</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="detection-right">
+                        <div class="result-box">
+                            <h3 style="color: #fff; text-align: center; margin-bottom: 15px;">检测结果</h3>
+                            <div class="result-item"
+                                style="background: rgba(1, 106, 224, 0.1); margin: 10px 0; padding: 8px; border-radius: 4px;">
+                                <span class="white-text">类别：</span>
+                                <span id="resultType">-</span>
+                            </div>
+                            <div class="result-item"
+                                style="background: rgba(1, 106, 224, 0.1); margin: 10px 0; padding: 8px; border-radius: 4px;">
+                                <span class="white-text">置信度：</span>
+                                <span id="resultConfidence">-</span>
+                            </div>
+                            <div class="result-item"
+                                style="background: rgba(1, 106, 224, 0.1); margin: 10px 0; padding: 8px; border-radius: 4px;">
+                                <span class="white-text">用时：</span>
+                                <span id="resultTime">-</span>
+                            </div>
+                            <div class="result-item"
+                                style="background: rgba(1, 106, 224, 0.1); margin: 10px 0; padding: 8px; border-radius: 4px;">
+                                <span class="white-text">数量：</span>
+                                <span id="resultCount">-</span>
+                            </div>
+                        </div>
+                        <div class="result-info" id="resultInfo">
+                            <div class="text-center text-muted" style="color: #6c757d;">
+                                <i class="fas fa-info-circle"></i>
+                                等待检测...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 加载遮罩 -->
+    <div class="loading-overlay"
+        style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 9999;">
+        <div
+            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; text-align: center;">
+            <i class="fas fa-spinner fa-spin fa-3x"></i>
+            <p>检测中...</p>
+        </div>
+    </div>
+
+    <script src="static/js/jquery/jQuery-2.2.0.min.js"></script>
+    <script src="static/js/echarts-all.js"></script>
+    <script src="static/js/base.js"></script>
+    <script src="static/js/detection.js"></script>
+
+</body>
+
+</html>
